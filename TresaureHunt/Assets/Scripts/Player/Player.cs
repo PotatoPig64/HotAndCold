@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     //Jump
     private float jumptimeCounter;
     public float jumpTime;
+    public float jumpForce;
     public float fallMultiplyer;
     public bool isJumping;
 
@@ -44,8 +45,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        rb.GetComponent<Rigidbody2D>(); //enables access to the player's rigidbody
-        boxColl.GetComponent<BoxCollider2D>();// enables access to the player's boxcollider
+        rb = GetComponent<Rigidbody2D>();
+        isUnderWater = true;
     }
 
     private void FixedUpdate()
@@ -53,16 +54,63 @@ public class Player : MonoBehaviour
         //checks if the player is on the ground or not
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
-        //movement
-        if (Input.GetKey(KeyCode.D)) { transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y); }
-        if (Input.GetKey(KeyCode.A)) { transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y); }
-        if (Input.GetKey(KeyCode.W)) { transform.position = new Vector3(transform.position.x, transform.position.y + moveSpeed * Time.deltaTime, transform.position.z + moveSpeed * Time.deltaTime); }
-        if (Input.GetKey(KeyCode.S)) { transform.position = new Vector3(transform.position.x, transform.position.y - moveSpeed * Time.deltaTime, transform.position.z - moveSpeed * Time.deltaTime); }
+        if(isUnderWater == true)
+        {
+            //underwater movement
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+            }
+
+            //jump
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
+            {
+                UnderWaterJump();
+            }
+            if(Input.GetKey(KeyCode.Space) && isJumping == true) //enables the player to choose how high they want to jump
+            {
+                if(jumptimeCounter > 0)
+                {
+                    rb.velocity = Vector2.up * jumpForce;
+                    jumptimeCounter -= Time.deltaTime;
+                }
+                else 
+                {
+                    rb.gravityScale = 0;
+                    isJumping = false; 
+                }
+            }
+            if (rb.velocity.y <= 0) //makes the jump a "videogame jump" aka the jump is not a perfect parabola 
+            {
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplyer - 1) * Time.deltaTime;
+            }
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void UnderWaterJump()
+    {
+        isJumping = true;
+        rb.gravityScale = 1;
+        rb.velocity = Vector2.up * jumpForce;
+        jumptimeCounter = jumpTime;
     }
 }
