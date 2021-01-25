@@ -73,6 +73,7 @@ public class Player : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
             }
+            /*
 
             //jump
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
                 }
                 else 
                 {
-                    rb.gravityScale = 0;
+                    rb.gravityScale = 0.5f;
                     isJumping = false; 
                 }
             }
@@ -96,6 +97,7 @@ public class Player : MonoBehaviour
             {
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplyer - 1) * Time.deltaTime;
             }
+            */
         }
         
     }
