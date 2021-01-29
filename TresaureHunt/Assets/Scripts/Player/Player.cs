@@ -10,109 +10,97 @@ public class Player : MonoBehaviour
     private BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
     public Animator animator;
-    public float moveSpeed;
-
-    //ground check
-    private bool isGrounded;
-    public Transform groundCheck;
-    public LayerMask whatIsGround;
-    public float checkRadius;
+    private float moveSpeed = 2;
+    private float lerpSpeed = 3;
 
     //Jump
     private float jumptimeCounter;
-    public float jumpTime;
-    public float jumpForce;
-    public float fallMultiplyer;
-    public bool isJumping;
+    private float jumpTime = 0.75f;
+    private float jumpForce = 3;
+    private bool isJumping;
+    Vector3 beforeJumpPosition;
 
     //melee attack
     public bool isAttacking;
-    private float meeleAttackTimer;
-    public float meleeAttackCooldown;
+    public float meeleAttackTimer;
+    public float meleeAttackCooldown = 3;
 
     //rangeAttack
     public Transform bullet;
-    public float bulletSpeed;
-    public float coolDownRangeAttack;
+    private float bulletSpeed;
+    private float coolDownRangeAttack;
     private float coolDownTimerRangeAttack;
 
     //breathing mechanics
     private float airMax;
-    public float airCountdown;
-    public bool isBreathing;
-    public bool isDrowning;
+    private float airCountdown;
+    private bool isBreathing;
+    private bool isDrowning;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         isUnderWater = true;
+        jumptimeCounter = jumpTime;
+
     }
 
     private void FixedUpdate()
     {
-        //checks if the player is on the ground or not
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
         if(isUnderWater == true)
         {
             //underwater movement
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+                Vector3 newPosition = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
+
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+                Vector3 newPosition = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
             }
             if (Input.GetKey(KeyCode.S))
             {
-                transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+                Vector3 newPosition = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+                Vector3 newPosition = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
             }
-            /*
 
-            //jump
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
+            //under waterjump
+            if (Input.GetKey(KeyCode.Space)){ UnderWaterJump(); }
+
+            //jumptime counter that counts down
+            if (isJumping == true) {  jumptimeCounter -= Time.deltaTime;}
+            else { jumptimeCounter = jumpTime; }
+
+            //changes the velocity depending how long the player has been jumping
+            if(jumptimeCounter < jumpTime*0.8f && jumptimeCounter > jumpTime * 0.6f) { rb.velocity = Vector2.up * jumpForce / 3;}
+            if(jumptimeCounter < jumpTime*0.6f && jumptimeCounter > jumpTime*0.4f) { rb.velocity = Vector2.down * jumpForce/3; }
+            if(jumptimeCounter < jumpTime*0.4f && jumptimeCounter > jumpTime * 0.2f) { rb.velocity = Vector2.down * jumpForce;}
+            if (beforeJumpPosition.x == transform.position.x && jumptimeCounter < jumpTime* 0.1f || jumptimeCounter <= 0)
             {
-                UnderWaterJump();
+                rb.velocity = Vector2.zero;
+                isJumping = false;
             }
-            if(Input.GetKey(KeyCode.Space) && isJumping == true) //enables the player to choose how high they want to jump
-            {
-                if(jumptimeCounter > 0)
-                {
-                    rb.velocity = Vector2.up * jumpForce;
-                    jumptimeCounter -= Time.deltaTime;
-                }
-                else 
-                {
-                    rb.gravityScale = 0.5f;
-                    isJumping = false; 
-                }
-            }
-            if (rb.velocity.y <= 0) //makes the jump a "videogame jump" aka the jump is not a perfect parabola 
-            {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplyer - 1) * Time.deltaTime;
-            }
-            */
+
+          
         }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UnderWaterJump()
-    {
+    {       
         isJumping = true;
-        rb.gravityScale = 1;
         rb.velocity = Vector2.up * jumpForce;
         jumptimeCounter = jumpTime;
+        beforeJumpPosition = transform.position;
     }
 }
