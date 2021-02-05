@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMeleeAttack : Player
+public class PlayerMeleeAttack : MonoBehaviour
 {
+
+    public bool isAttacking;
+    public float meeleAttackTimer;
+    public float meleeAttackCooldown = 3;
     public Collider2D AttackTrigger;
 
 

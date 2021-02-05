@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     //misc
@@ -9,21 +9,22 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
+
+    [SerializeField] AnimationCurve curveY;
+
     public Animator animator;
+
     private float moveSpeed = 2;
     private float lerpSpeed = 3;
 
     //Jump
-    private float jumptimeCounter;
-    private float jumpTime = 0.75f;
-    private float jumpForce = 3;
-    private bool isJumping;
-    Vector3 beforeJumpPosition;
-
-    //melee attack
-    public bool isAttacking;
-    public float meeleAttackTimer;
-    public float meleeAttackCooldown = 3;
+    private float timeElapsed;
+    public bool isJumping;
+    public bool isGrounded;
+    Vector2 beforeJumpPosition;
+    Vector2 landingPosition;
+    Vector2 movement;
+    private float landingDistance;
 
     //rangeAttack
     public Transform bullet;
@@ -41,9 +42,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        isGrounded = true;
         isUnderWater = true;
-        jumptimeCounter = jumpTime;
 
+    }
+
+    void Update()
+    {
+        //calls for the inputhandler method that checks after inputs
+        InputHandler();
     }
 
     private void FixedUpdate()
@@ -52,55 +59,79 @@ public class Player : MonoBehaviour
         if(isUnderWater == true)
         {
             //underwater movement
-            if (Input.GetKey(KeyCode.W))
-            {
-                Vector3 newPosition = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
 
+
+            //underwater jump
+            if (isJumping)
+            {         
+                //calls for the underwater jump handler if the player is jumping
+                UnderWaterJumpHandler();
             }
-            if (Input.GetKey(KeyCode.A))
+            else
             {
-                Vector3 newPosition = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                Vector3 newPosition = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y - moveSpeed * 0.5f * Time.deltaTime);
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                Vector3 newPosition = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y + moveSpeed * 0.5f * Time.deltaTime);
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
+                MovementHandler();
             }
 
-            //under waterjump
-            if (Input.GetKey(KeyCode.Space)){ UnderWaterJump(); }
-
-            //jumptime counter that counts down
-            if (isJumping == true) {  jumptimeCounter -= Time.deltaTime;}
-            else { jumptimeCounter = jumpTime; }
-
-            //changes the velocity depending how long the player has been jumping
-            if(jumptimeCounter < jumpTime*0.8f && jumptimeCounter > jumpTime * 0.6f) { rb.velocity = Vector2.up * jumpForce / 3;}
-            if(jumptimeCounter < jumpTime*0.6f && jumptimeCounter > jumpTime*0.4f) { rb.velocity = Vector2.down * jumpForce/3; }
-            if(jumptimeCounter < jumpTime*0.4f && jumptimeCounter > jumpTime * 0.2f) { rb.velocity = Vector2.down * jumpForce;}
-            if (beforeJumpPosition.x == transform.position.x && jumptimeCounter < jumpTime* 0.1f || jumptimeCounter <= 0)
-            {
-                rb.velocity = Vector2.zero;
-                isJumping = false;
-            }
-
-          
-        }
+        }        
         
     }
 
-    public void UnderWaterJump()
-    {       
-        isJumping = true;
-        rb.velocity = Vector2.up * jumpForce;
-        jumptimeCounter = jumpTime;
-        beforeJumpPosition = transform.position;
+    void UnderWaterJumpHandler()
+    {
+        if (isGrounded == true)
+        {
+            //the player's current position
+            beforeJumpPosition = rb.position;
+
+            //the position the player will land at
+            landingPosition = beforeJumpPosition + movement.normalized * moveSpeed;
+
+            //the distance the player will jump
+            landingDistance = Vector2.Distance(landingPosition, beforeJumpPosition);
+
+            timeElapsed = 0f;
+            isGrounded = false;
+        }
+        else
+        {
+            timeElapsed += Time.fixedDeltaTime * moveSpeed/landingDistance;
+
+            //if the time elapsed is less or equal than 1, the player will jump
+            if(timeElapsed <= 1f)
+            {
+                beforeJumpPosition = Vector2.MoveTowards(beforeJumpPosition , landingPosition, Time.fixedDeltaTime * moveSpeed);
+                rb.MovePosition(new Vector2(beforeJumpPosition.x, beforeJumpPosition.y + curveY.Evaluate(timeElapsed)));
+            }
+            //when timeElapsed is greater than 1, the jump is finished
+            else
+            {
+                isJumping = false;
+                isGrounded = true;
+            }
+        }
     }
+
+    void MovementHandler()
+    {
+        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+    }
+
+
+    void InputHandler()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        movement = new Vector2(horizontal, vertical);
+
+
+        //begins the jumping process id space bar is pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("you've pressed the spacebar");
+            isJumping = true;
+        }
+    }
+
+
 }
