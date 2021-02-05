@@ -58,18 +58,16 @@ public class Player : MonoBehaviour
 
         if(isUnderWater == true)
         {
-            //underwater movement
 
-
-            //underwater jump
+            // underwater movement and jump
             if (isJumping)
             {         
                 //calls for the underwater jump handler if the player is jumping
                 UnderWaterJumpHandler();
             }
-            else
+            else//if you aint jumping, you're walking
             {
-                MovementHandler();
+                UnderWaterMovementHandler();
             }
 
         }        
@@ -111,7 +109,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void MovementHandler()
+    void UnderWaterMovementHandler() //moves the player. this is a very sad player movement :( I had a more fun one but I can't use it.
     {
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
     }
@@ -122,13 +120,12 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        movement = new Vector2(horizontal, vertical);
+        movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
 
 
         //begins the jumping process id space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("you've pressed the spacebar");
             isJumping = true;
         }
     }
