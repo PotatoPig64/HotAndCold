@@ -4,48 +4,85 @@ using UnityEngine;
 
 public class superklassEntity : MonoBehaviour
 {
-    
-        void Movement()
+
+    float movespeed = 3.5f;
+    float timeTurner = 3f;
+    float timeTilTurn = 0f;
+    bool facingRight; //for the flip method
+    float health = 1; //for the health method
+    public Transform target; //crates 'target' with coordinates
+    public Transform playerCheck; //checks if player
+    public float checkRadius;   //how close the player need to be
+    public LayerMask whatIsPlayer; 
+    private bool nearPLayer; //yes or no
+    BoxCollider2D body; //for their bodies
+
+        public virtual void Movement()
         {
 
+            nearPLayer = Physics2D.OverlapCircle(playerCheck.position, checkRadius, whatIsPlayer);
 
-
+            if (nearPLayer == true)
+            {
+                timeTilTurn = 0f;
+                transform.position = Vector3.MoveTowards(transform.position, target.position, movespeed * Time.deltaTime);
+            }
 
         }
          
-        void Attack()
+        public virtual void Attack()
         {
 
-
+            
 
         }
 
-        void Health()
+        public virtual void Health()
         {
-            float Health = 1;
 
-            if (Health <= 0.1f)
+            if (health <= 0.1f)
             {
-                Health = 1f;
+                health = 1f;
             }
 
             /*is used when the player runns out of lives
-            if (Health == 0)
+            if (health == 0)
             {
             managerScript.gameOver = true;
             }*/
 
-    }
+        }
 
-        void Oncollision()
+        public virtual void Oncollision(Collision2D collision)
         {
+            if (collision.gameObject.tag.Equals("Player"))
+            {
 
+            }
+
+            if (collision.gameObject.tag.Equals("Wall"))
+            {
+
+            }
+
+            if (collision.gameObject.tag.Equals("Jellyfish"))
+            {
+
+            }
 
 
         }
 
+        void flip()
+        {
+            facingRight = !facingRight;
+            Vector3 scaler = transform.localScale;
+            scaler.x *= -1;
+            transform.localScale = scaler;
+        }
 
-    }
+
+}
 
    
 
