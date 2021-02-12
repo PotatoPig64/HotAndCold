@@ -204,7 +204,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.9339623, g: 0.048460312, b: 0.048460312, a: 1}
   m_FlipX: 0
@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87043664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -0.74, z: -2.82}
+  m_LocalPosition: {x: 0.16, y: -0.48, z: -2.82}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentNode: {fileID: 0}
+  gameOver: 0
 --- !u!4 &987929975
 Transform:
   m_ObjectHideFlags: 0
@@ -1864,7 +1865,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reachableNodes:
-  - {fileID: 1244353976}
   - {fileID: 2028345905}
   Col: {fileID: 1041453627}
 --- !u!114 &1041453632
@@ -1880,7 +1880,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reachableNodes:
-  - {fileID: 1244353976}
   - {fileID: 2028345905}
   Col: {fileID: 1041453627}
 --- !u!1 &1244353974
@@ -1932,7 +1931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reachableNodes:
-  - {fileID: 1041453630}
+  - {fileID: 2028345905}
   - {fileID: 2028345905}
   Col: {fileID: 0}
 --- !u!483693784 &1244353977
@@ -2298,7 +2297,6 @@ GameObject:
   - component: {fileID: 1701690379}
   - component: {fileID: 1701690377}
   - component: {fileID: 1701690376}
-  - component: {fileID: 1701690378}
   m_Layer: 0
   m_Name: testPlayer
   m_TagString: Player
@@ -2318,9 +2316,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0333da0bd82a2c04a953b0b874eddc1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 1
+  target: {fileID: 0}
+  playerCheck: {fileID: 0}
+  checkRadius: 0
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 0
   isUnderWater: 0
   rb: {fileID: 0}
   meleeAttackTrigger: {fileID: 167438159}
+  hasFallenIntoTheVoid: 0
   curveY:
     serializedVersion: 2
     m_Curve:
@@ -2460,18 +2466,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &1701690378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701690372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9e30b9060883d479e2815df6f36fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1701690379
 MonoBehaviour:
   m_ObjectHideFlags: 0

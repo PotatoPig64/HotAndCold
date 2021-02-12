@@ -5,6 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class Node : MonoBehaviour
 {
+    /// <summary>
+    /// This is a node script that tells the GameManager which node is the current node/where the player is and also does other stuff.
+    /// </summary>
+
     public List<Node> reachableNodes = new List<Node>();
     [HideInInspector]
     public TilemapCollider2D Col;

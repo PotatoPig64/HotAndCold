@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+public class Player : superklassEntity
 {
     //misc
     public bool isUnderWater;
     public Rigidbody2D rb;
     private BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
+    public bool hasFallenIntoTheVoid; //remeber to write this later while working on the collision
 
     [SerializeField] AnimationCurve curveY;
 

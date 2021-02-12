@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// This is the GameManager script. 
+    /// It for example keeps track of current nodes and the gameOver bool. 
+    /// </summary>
+
+    //displays the current node in the inspector
     public Node currentNode;
+
     public static GameManager ins;
+    public GameObject player;
+
+    //the player's ridgidBody2D
     Rigidbody2D playerRB;
+
+    public bool gameOver;
 
     private void Awake() 
     {
@@ -15,6 +27,8 @@ public class GameManager : MonoBehaviour
 
         //gives accses to the player's rigidbody2D
         playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+
+        gameOver = false;
 
     }
 
@@ -30,6 +44,11 @@ public class GameManager : MonoBehaviour
         {
             Player.isGrounded = true;
             playerRB.gravityScale = 0f;
+        }
+
+        if(gameOver == true)
+        {
+            //remeber to write this later!!!
         }
     }
 
