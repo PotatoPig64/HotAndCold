@@ -38,10 +38,15 @@ public class PlayerMeleeAttack : MonoBehaviour
             {
                 meeleAttackTimer -= Time.deltaTime;
             }
+            //dissables the attack collider after a second
+            if(meeleAttackTimer < 2)
+            {
+                AttackTrigger.enabled = false;
+            }
+            //allowes the player to attack again
             if(meeleAttackTimer <= 0)
             {
                 isAttacking = false;
-                AttackTrigger.enabled = false;
             }
         }
     }

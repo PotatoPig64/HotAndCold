@@ -23,7 +23,6 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
-  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -51,14 +50,13 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -89,7 +87,26 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: -1, y: 16}
+      - {x: -4.6296587, y: 14.064182}
+      - {x: -9.843515, y: 11.283459}
+      - {x: -16, y: 8}
+      - {x: -16, y: -8}
+      - {x: -12.686911, y: -9.656544}
+      - {x: -8.719345, y: -11.640327}
+      - {x: -4.508008, y: -13.745996}
+      - {x: 0, y: -16}
+      - {x: 1, y: -16}
+      - {x: 8.956154, y: -11.756718}
+      - {x: 12.759998, y: -9.728002}
+      - {x: 16, y: -8}
+      - {x: 16, y: 8}
+      - {x: 16, y: 8}
+      - {x: 12.59564, y: 9.815659}
+      - {x: 8.756916, y: 11.862976}
+      - {x: 4.8223877, y: 13.961391}
+      - {x: 1, y: 16}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0

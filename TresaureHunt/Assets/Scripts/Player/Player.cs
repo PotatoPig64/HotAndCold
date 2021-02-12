@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     //misc
     public bool isUnderWater;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
 
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     //Jump
     private float timeElapsed;
     public bool isJumping;
-    public bool isGrounded;
+    public static bool isGrounded;
     Vector2 beforeJumpPosition;
     Vector2 landingPosition;
     Vector2 movement;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //calls for the inputhandler method that checks after inputs
-        InputHandler();
+        if (isUnderWater) { UnderWaterInputHandler(); }
     }
 
     private void FixedUpdate()
@@ -115,13 +115,13 @@ public class Player : MonoBehaviour
     }
 
 
-    void InputHandler()
-    {
+    void UnderWaterInputHandler()
+    {      
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
-
+        
 
         //begins the jumping process id space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
