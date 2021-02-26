@@ -16,12 +16,11 @@ public class Player : superklassEntity
     public Animator animator;
 
     private float moveSpeed = 2;
-    private float lerpSpeed = 3;
 
     //Jump
     private float timeElapsed;
     public bool isJumping;
-    public static bool isGrounded;
+    public bool isGrounded;
     Vector2 beforeJumpPosition;
     Vector2 landingPosition;
     Vector2 movement;

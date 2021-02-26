@@ -12,9 +12,14 @@ public class Node : MonoBehaviour
     public List<Node> reachableNodes = new List<Node>();
     [HideInInspector]
     public TilemapCollider2D Col;
+
+    float wait;
+    float waitingTime = 1f;
+    private bool waiiiit = false;
+
     void Awake()
     {
-        Col = GetComponent < TilemapCollider2D>();
+        Col = GetComponent < TilemapCollider2D>();      
     }
 
     //sets the current node
@@ -29,14 +34,24 @@ public class Node : MonoBehaviour
         //deactivates the current node's collider
         if(Col != null) { Col.enabled = false; }
 
-        //activates all reachable nodes' colliders
-        foreach(Node node in reachableNodes)
+        Debug.Log("Reached the while loop");
+        while (wait >= 0) { waiiiit = true; }
+        Debug.Log("Passed the while loop");
+
+        if(wait <= 0)
         {
-            if(node.Col != null)
+            //activates all reachable nodes' colliders
+            foreach (Node node in reachableNodes)
             {
-                node.Col.enabled = true;
+                if (node.Col != null)
+                {
+                    node.Col.enabled = true;
+                }
             }
+            Debug.Log("Stuff is activated");
         }
+
+        wait = waitingTime;
     }
 
     //leaves the current node
@@ -57,6 +72,14 @@ public class Node : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player"))
         {
             Arrive();
+        }
+    }
+
+    private void Update()
+    {
+        if(waiiiit == true)
+        {
+            wait -= Time.deltaTime;
         }
     }
 }
