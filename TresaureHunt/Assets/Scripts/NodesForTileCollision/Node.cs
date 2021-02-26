@@ -13,18 +13,17 @@ public class Node : MonoBehaviour
     [HideInInspector]
     public TilemapCollider2D Col;
 
-    float wait;
-    float waitingTime = 1f;
-    private bool waiiiit = false;
+
 
     void Awake()
     {
-        Col = GetComponent < TilemapCollider2D>();      
+        Col = GetComponent < TilemapCollider2D>();
     }
 
     //sets the current node
     public void Arrive()
     {
+        Debug.Log("Arrive");
         //leaves the currentNode if there is one
         if(GameManager.ins.currentNode != null) { GameManager.ins.currentNode.Leave(); }
 
@@ -34,25 +33,11 @@ public class Node : MonoBehaviour
         //deactivates the current node's collider
         if(Col != null) { Col.enabled = false; }
 
-        Debug.Log("Reached the while loop");
-        while (wait >= 0) { waiiiit = true; }
-        Debug.Log("Passed the while loop");
+        //delayes the activation of the reachable nodes so that the player has time to pass throught before the collider is activated
+        Invoke("ActivateReachableNodes", 1);
 
-        if(wait <= 0)
-        {
-            //activates all reachable nodes' colliders
-            foreach (Node node in reachableNodes)
-            {
-                if (node.Col != null)
-                {
-                    node.Col.enabled = true;
-                }
-            }
-            Debug.Log("Stuff is activated");
-        }
-
-        wait = waitingTime;
     }
+
 
     //leaves the current node
     public void Leave()
@@ -67,6 +52,8 @@ public class Node : MonoBehaviour
         }
     }
 
+
+    //checks for collision
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("Player"))
@@ -75,11 +62,17 @@ public class Node : MonoBehaviour
         }
     }
 
-    private void Update()
+
+    //activates all reachable nodes' colliders
+    void ActivateReachableNodes() 
     {
-        if(waiiiit == true)
+        foreach (Node node in reachableNodes)
         {
-            wait -= Time.deltaTime;
+            if (node.Col != null)
+            {
+                node.Col.enabled = true;
+            }
         }
     }
+
 }
