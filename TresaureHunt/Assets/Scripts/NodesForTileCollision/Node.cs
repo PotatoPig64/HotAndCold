@@ -23,18 +23,18 @@ public class Node : MonoBehaviour
     //sets the current node
     public void Arrive()
     {
-        Debug.Log("Arrive");
         //leaves the currentNode if there is one
         if(GameManager.ins.currentNode != null) { GameManager.ins.currentNode.Leave(); }
 
         //sets the currentNode
         GameManager.ins.currentNode = this;
+        Debug.Log(GameManager.ins.currentNode);
 
         //deactivates the current node's collider
         if(Col != null) { Col.enabled = false; }
 
         //delayes the activation of the reachable nodes so that the player has time to pass throught before the collider is activated
-        Invoke("ActivateReachableNodes", 1);
+        Invoke("ActivateReachableNodes", 0.5f);
 
     }
 

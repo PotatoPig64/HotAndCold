@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : superklassEntity
+public class PlayerMainScript : superklassEntity
 {
     //misc
-    public bool isUnderWater;
+    public static bool isUnderWater;
     public Rigidbody2D rb;
-    private BoxCollider2D boxColl;
+    public BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
-    public bool hasFallenIntoTheVoid; //remeber to write this later while working on the collision
+    public static bool hasFallenIntoTheVoid; //remeber to write this later while working on the collision
 
     [SerializeField] AnimationCurve curveY;
 
@@ -28,16 +28,9 @@ public class Player : superklassEntity
 
     //rangeAttack
     public Transform bullet;
-    private float bulletSpeed;
-    private float coolDownRangeAttack;
-    private float coolDownTimerRangeAttack;
-
-    //breathing mechanics
-    private float airMax;
-    private float airCountdown;
-    private bool isBreathing;
-    private bool isDrowning;
-
+    protected float bulletSpeed;
+    protected float coolDownRangeAttack;
+    protected float coolDownTimerRangeAttack;
 
     void Start()
     {
@@ -61,12 +54,14 @@ public class Player : superklassEntity
 
             // underwater movement and jump
             if (isJumping)
-            {         
+            {
+                boxColl.enabled = false;
                 //calls for the underwater jump handler if the player is jumping
                 UnderWaterJumpHandler();
             }
             else//if you aint jumping, you're walking
             {
+                boxColl.enabled = true;
                 UnderWaterMovementHandler();
             }
 
@@ -111,7 +106,10 @@ public class Player : superklassEntity
 
     void UnderWaterMovementHandler() //moves the player. this is a very sad player movement :( I had a more fun one but I can't use it.
     {
-        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        if (!GameManager.ins.currentNode.tag.Equals("Void"))
+        {
+            rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
 
@@ -123,6 +121,7 @@ public class Player : superklassEntity
         movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
         
 
+
         //begins the jumping process id space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -130,5 +129,11 @@ public class Player : superklassEntity
         }
     }
 
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            Debug.Log("Collided with the edge collider");
+        }
+    }
 }
