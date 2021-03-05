@@ -9,6 +9,7 @@ TagManager:
   - Void
   - Ground
   - HigherGround
+  - AirBubble
   layers:
   - Default
   - TransparentFX
