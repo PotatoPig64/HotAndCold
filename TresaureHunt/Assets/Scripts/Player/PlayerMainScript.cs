@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+public class PlayerMainScript : superklassEntity
 {
     //misc
-    public bool isUnderWater;
+    public static bool isUnderWater;
     public Rigidbody2D rb;
-    private BoxCollider2D boxColl;
+    public BoxCollider2D boxColl;
     public Collider2D meleeAttackTrigger;
+    public static bool hasFallenIntoTheVoid; //remeber to write this later while working on the collision
 
     [SerializeField] AnimationCurve curveY;
 
     public Animator animator;
 
     private float moveSpeed = 2;
-    private float lerpSpeed = 3;
 
     //Jump
     private float timeElapsed;
     public bool isJumping;
-    public static bool isGrounded;
+    public bool isGrounded;
     Vector2 beforeJumpPosition;
     Vector2 landingPosition;
     Vector2 movement;
@@ -28,16 +28,9 @@ public class Player : MonoBehaviour
 
     //rangeAttack
     public Transform bullet;
-    private float bulletSpeed;
-    private float coolDownRangeAttack;
-    private float coolDownTimerRangeAttack;
-
-    //breathing mechanics
-    private float airMax;
-    private float airCountdown;
-    private bool isBreathing;
-    private bool isDrowning;
-
+    protected float bulletSpeed;
+    protected float coolDownRangeAttack;
+    protected float coolDownTimerRangeAttack;
 
     void Start()
     {
@@ -62,12 +55,14 @@ public class Player : MonoBehaviour
 
             // underwater movement and jump
             if (isJumping)
-            {         
+            {
+                boxColl.enabled = false;
                 //calls for the underwater jump handler if the player is jumping
                 UnderWaterJumpHandler();
             }
             else//if you aint jumping, you're walking
             {
+                boxColl.enabled = true;
                 UnderWaterMovementHandler();
             }
 
@@ -112,7 +107,10 @@ public class Player : MonoBehaviour
 
     void UnderWaterMovementHandler() //moves the player. this is a very sad player movement :( I had a more fun one but I can't use it.
     {
-        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        if (!GameManager.ins.currentNode.tag.Equals("Void"))
+        {
+            rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
 
@@ -123,6 +121,7 @@ public class Player : MonoBehaviour
 
         movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
         
+
 
         //begins the jumping process id space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
@@ -137,4 +136,12 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            Debug.Log("Collided with the edge collider");
+        }
+    }
 }
+

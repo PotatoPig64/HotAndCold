@@ -8,6 +8,7 @@ TagManager:
   - Pirate
   - Void
   - Ground
+  - HigherGround
   layers:
   - Default
   - TransparentFX
