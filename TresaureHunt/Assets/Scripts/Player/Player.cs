@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     {
         //calls for the inputhandler method that checks after inputs
         if (isUnderWater) { UnderWaterInputHandler(); }
+        else { OnGroundMovement(); }
     }
 
     private void FixedUpdate()
@@ -130,5 +131,10 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    void OnGroundMovement()
+    {
+
+    }
 
 }
