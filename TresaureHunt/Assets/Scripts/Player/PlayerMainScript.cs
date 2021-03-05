@@ -44,15 +44,16 @@ public class PlayerMainScript : superklassEntity
     {
         //calls for the inputhandler method that checks after inputs
         if (isUnderWater) { UnderWaterInputHandler(); }
-        else { OnGroundMovement(); }
+        else { LandInputHandler(); }
     }
 
     private void FixedUpdate()
     {
 
-        if(isUnderWater == true)
+        if (isUnderWater == true)
         {
-
+            moveSpeed = 2;
+            //underwater movespeeed
             // underwater movement and jump
             if (isJumping)
             {
@@ -66,8 +67,8 @@ public class PlayerMainScript : superklassEntity
                 UnderWaterMovementHandler();
             }
 
-        }        
-        
+        }
+
     }
 
     void UnderWaterJumpHandler()
@@ -88,12 +89,12 @@ public class PlayerMainScript : superklassEntity
         }
         else
         {
-            timeElapsed += Time.fixedDeltaTime * moveSpeed/landingDistance;
+            timeElapsed += Time.fixedDeltaTime * moveSpeed / landingDistance;
 
             //if the time elapsed is less or equal than 1, the player will jump
-            if(timeElapsed <= 1f)
+            if (timeElapsed <= 1f)
             {
-                beforeJumpPosition = Vector2.MoveTowards(beforeJumpPosition , landingPosition, Time.fixedDeltaTime * moveSpeed);
+                beforeJumpPosition = Vector2.MoveTowards(beforeJumpPosition, landingPosition, Time.fixedDeltaTime * moveSpeed);
                 rb.MovePosition(new Vector2(beforeJumpPosition.x, beforeJumpPosition.y + curveY.Evaluate(timeElapsed)));
             }
             //when timeElapsed is greater than 1, the jump is finished
@@ -115,12 +116,12 @@ public class PlayerMainScript : superklassEntity
 
 
     void UnderWaterInputHandler()
-    {      
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
-        
+
 
 
         //begins the jumping process id space bar is pressed
@@ -134,14 +135,65 @@ public class PlayerMainScript : superklassEntity
     void OnGroundMovement()
     {
 
+        moveSpeed = 3f;
+        if (isJumping)
+        {
+            LandJumpHandler();
+        }
+        else
+        {
+            LandMovementHandler();
+        }
+
+
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void LandJumpHandler()
     {
-        if (collision.gameObject.tag.Equals("Ground"))
+         if (isGrounded)
+         {
+             beforeJumpPosition = rb.position;
+             landingPosition = beforeJumpPosition + movement.normalized * moveSpeed;
+             landingDistance = Vector2.Distance(landingPosition, beforeJumpPosition);
+             timeElapsed = 0f;
+             isGrounded = false;
+         }
+         else
+         {
+             timeElapsed += Time.fixedDeltaTime * moveSpeed / landingDistance;
+             if (timeElapsed <= 1f)
+             {
+                 beforeJumpPosition = Vector2.MoveTowards(beforeJumpPosition, landingPosition, Time.fixedDeltaTime * moveSpeed);
+                 rb.MovePosition(new Vector2(beforeJumpPosition.x, beforeJumpPosition.y + curveY.Evaluate(timeElapsed)));
+             }
+             else
+             {
+                 isJumping = false;
+                 isGrounded = true;
+             }     
+          }
+     
+
+    }
+
+    void LandMovementHandler()
+    {
+        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    void LandInputHandler()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        movement = new Vector2(horizontal, vertical);
+
+        if (Input.GetKeyDown("space"))
         {
-            Debug.Log("Collided with the edge collider");
+            isJumping = true;
         }
     }
+
 }
+
 
