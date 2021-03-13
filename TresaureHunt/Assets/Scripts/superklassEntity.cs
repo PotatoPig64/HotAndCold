@@ -5,7 +5,7 @@ using UnityEngine;
 public class superklassEntity : MonoBehaviour
 {
 
-    float movespeed = 3.5f;
+    public float movespeed = 3.5f;
     float timeTurner = 3f;
     float timeTilTurn = 0f;
     bool facingRight; //for the flip method

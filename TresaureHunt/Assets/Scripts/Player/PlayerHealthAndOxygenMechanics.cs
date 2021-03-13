@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealthAndOxygenMechanics : MonoBehaviour
 {
     /// <summary>
     /// The Player's health script including breathing mechanics
@@ -11,17 +11,18 @@ public class PlayerHealth : MonoBehaviour
     /// 
 
     protected float airMax;
-    protected float currentAmountOfAir;
+    public static float currentAmountOfAir;
     protected bool isDrowning;
     protected float timeLeftBeforePlayerHasDrowned;
+    public static bool tookABreath;
 
-    public float health;
+    public static float health;
 
     void Start()
     {
-        airMax = 5;
+        airMax = 10;
         currentAmountOfAir = airMax;
-        health = 3;
+        health = 2;
     }
 
    
@@ -47,12 +48,20 @@ public class PlayerHealth : MonoBehaviour
 
         if (PlayerMainScript.isUnderWater == true)
         {
+            //calls the funktion that makes t the player is loosing air while under water
             LooseAir();
+
+            //this is used in conection with the HUD so that the bubbles refils when the player breathes again
+            if(tookABreath == true && currentAmountOfAir < 10)
+            {
+                tookABreath = false;
+            }
         }
 
+        //is used when the player is drowning
         if(isDrowning == true)
         {
-            Debug.Log("Time left before drowned: " + timeLeftBeforePlayerHasDrowned);
+            //the player has, depending on how many lifes they still have, a sertain amount of time to find an airbubble to breathe after they're out of air.
             if (timeLeftBeforePlayerHasDrowned > 0)
             {
                 timeLeftBeforePlayerHasDrowned -=  Time.deltaTime;                
@@ -62,6 +71,7 @@ public class PlayerHealth : MonoBehaviour
                 GameManager.ins.gameOver = true;
             }
 
+            //these three ifstatements reduces the players health while they're drowning
             if(timeLeftBeforePlayerHasDrowned < 2.5f && timeLeftBeforePlayerHasDrowned > 1.5f)
             {
                 health = 2;
@@ -89,18 +99,18 @@ public class PlayerHealth : MonoBehaviour
     //a method that reduces the players currentAmountOfAir. 
     public void LooseAir() 
     {
+        //makes the player loos air if the player has any air left
         if(currentAmountOfAir > 0)
         {
-            Debug.Log("Current Amount Of Air: " + currentAmountOfAir);
-            currentAmountOfAir -= 0.5f * Time.deltaTime;
+            currentAmountOfAir -=  Time.deltaTime;
         }
 
     }
 
-    //a method that is used when the player breathes. The method prevents the player from drowning
+    //a method that is used when the player breathes. It's the method prevents the player from drowning
     public void Breathe() 
     {
-        Debug.Log("took a breath");
+        tookABreath = true;
         isDrowning = false;
         currentAmountOfAir = airMax;
     }
@@ -110,6 +120,7 @@ public class PlayerHealth : MonoBehaviour
     {
         isDrowning = true;
 
+        //gives the player different amounts of time they have before they drown depending on how many lifes they have left when they ran out of air
         switch (health)
         {
             case 1:
@@ -125,11 +136,13 @@ public class PlayerHealth : MonoBehaviour
                 timeLeftBeforePlayerHasDrowned = 1;
                 break;
         }
+
         timeLeftBeforePlayerHasDrowned -= Time.deltaTime;
         return;
     }
 
-    //method for the player to take dmg
+    //method for the player to take dmg 
+    //is used together with the enemies scripts 
     public void Damage(int Damage) 
     {
         health -= Damage;
@@ -137,6 +150,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //cheks if the collision the player had was with an air bubble, and if it was the player will breathe
         if (collision.gameObject.tag.Equals("AirBubble"))
         {
             Breathe();
