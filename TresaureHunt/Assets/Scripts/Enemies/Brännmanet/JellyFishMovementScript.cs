@@ -5,12 +5,14 @@ using UnityEngine;
 public class NewBehaviourScript : superklassEntity
 {
     /// <summary>
-    /// This is the JellyFish's movement script. The movement it does is randomized with both how oftten it will turn and what direction it will take.
+    /// This is the JellyFish's movement script. The movement it does is randomized with both how often it will turn and what direction it will take.
     /// The jellyfish will have a chance to change directions every 3 to 7 seconds and it has 8 directions to pick from.
     /// </summary>
     /// 
     protected Vector3 currentMovement;
     protected Vector3 movement;
+    public Vector3 maxNEMovement;
+    public Vector3 maxSWMovement;
     protected int movementValue;
     public float lerpSpeed;
     private float timerMaxValue = 5;
