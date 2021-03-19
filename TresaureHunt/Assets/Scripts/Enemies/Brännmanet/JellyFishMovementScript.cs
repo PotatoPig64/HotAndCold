@@ -13,10 +13,13 @@ public class NewBehaviourScript : superklassEntity
     protected Vector3 movement;
     public Vector3 maxNEMovement;
     public Vector3 maxSWMovement;
+
     protected int movementValue;
     public float lerpSpeed;
     private float timerMaxValue = 5;
     private float timeUntilItProbablyWillTurn;
+
+    //bools for the different movement directions
     private bool SWMovement;
     private bool SEMovement;
     private bool NWMovement;
@@ -44,7 +47,7 @@ public class NewBehaviourScript : superklassEntity
         if (timeUntilItProbablyWillTurn <= 0)
         {
             //randomizes a value between 1 and 4
-            movementValue =  (int) Random.Range(1f, 4f);
+            movementValue =  (int) Random.Range(1f, 8f);
 
             //This will tell the jellyfish what direction it should move depending on the randomized number we just got in the line above
             switch (movementValue)
@@ -150,6 +153,16 @@ public class NewBehaviourScript : superklassEntity
             MovementW();
         }
 
+        if(transform.position.x >= maxNEMovement.x)
+        {
+            timeUntilItProbablyWillTurn = timerMaxValue;
+            makeAllDirectionBoolsFalse();
+            SMovement = true;
+        }
+        if (transform.position.y >= maxNEMovement.y)
+        {
+
+        }
 
     }
 
