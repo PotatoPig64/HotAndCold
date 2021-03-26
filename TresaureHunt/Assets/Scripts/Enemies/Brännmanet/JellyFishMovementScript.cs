@@ -6,16 +6,22 @@ public class NewBehaviourScript : superklassEntity
 {
     /// <summary>
     /// This is the JellyFish's movement script. The movement it does is randomized with both how often it will turn and what direction it will take.
-    /// The jellyfish will have a chance to change directions every 3 to 7 seconds and it has 8 directions to pick from.
+    /// The jellyfish will have a chance to change directions every 3 to 7 seconds and it has 8 directions to pick from. There is a bool for every direction and when a direction bool is true, the entity will move in that direction.
     /// </summary>
-    /// 
+    
+    //vectors for the movement
     protected Vector3 currentMovement;
     protected Vector3 movement;
-    public Vector3 maxNEMovement;
-    public Vector3 maxSWMovement;
 
+    //are used to restrict the jellyfish's movement
+    public Transform maxNEMovement;
+    public Transform maxSWMovement;
+
+    //movement and lerp speed
     protected int movementValue;
     public float lerpSpeed;
+
+    //variables for the timers
     private float timerMaxValue = 5;
     private float timeUntilItProbablyWillTurn;
 
@@ -39,14 +45,16 @@ public class NewBehaviourScript : superklassEntity
     // Update is called once per frame
     void Update()
     {
+        //countdown for the timer
         if(timeUntilItProbablyWillTurn > 0)
         {
             timeUntilItProbablyWillTurn -= Time.deltaTime;
         }
 
+        //is used when the timer is at zero, which means that a new movement direction will be randomized and picked
         if (timeUntilItProbablyWillTurn <= 0)
         {
-            //randomizes a value between 1 and 4
+            //randomizes a value between 1 and 8
             movementValue =  (int) Random.Range(1f, 8f);
 
             //This will tell the jellyfish what direction it should move depending on the randomized number we just got in the line above
@@ -55,7 +63,7 @@ public class NewBehaviourScript : superklassEntity
                 case 1:
                     makeAllDirectionBoolsFalse();
                     SEMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
+                    timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the jellyfish will move in the direction before changing again
                     timeUntilItProbablyWillTurn = timerMaxValue;
                     break;
                 case 2:
@@ -153,15 +161,31 @@ public class NewBehaviourScript : superklassEntity
             MovementW();
         }
 
-        if(transform.position.x >= maxNEMovement.x)
+
+        //these four if statements makes sure that the yellyfish stays within a sertain range
+        if(transform.position.x >= maxNEMovement.position.x)
+        {
+            timeUntilItProbablyWillTurn = timerMaxValue;
+            makeAllDirectionBoolsFalse();
+            WMovement = true;
+        }
+        if (transform.position.y >= maxNEMovement.position.y)
         {
             timeUntilItProbablyWillTurn = timerMaxValue;
             makeAllDirectionBoolsFalse();
             SMovement = true;
         }
-        if (transform.position.y >= maxNEMovement.y)
+        if(transform.position.x <= maxSWMovement.position.x)
         {
-
+            timeUntilItProbablyWillTurn = timerMaxValue;
+            makeAllDirectionBoolsFalse();
+            EMovement = true;
+        }
+        if(transform.position.y <= maxSWMovement.position.y)
+        {
+            timeUntilItProbablyWillTurn = timerMaxValue;
+            makeAllDirectionBoolsFalse();
+            NMovement = true;
         }
 
     }
