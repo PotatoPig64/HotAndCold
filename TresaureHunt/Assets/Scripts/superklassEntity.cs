@@ -15,7 +15,7 @@ public class superklassEntity : MonoBehaviour
     public float checkRadius;   //how close the player need to be
     public LayerMask whatIsPlayer; 
     private bool nearPLayer; //yes or no
-    BoxCollider2D body; //for their bodies
+    public BoxCollider2D body; //for their bodies
 
         public virtual void Movement()
         {

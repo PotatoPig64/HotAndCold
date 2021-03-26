@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : superklassEntity
+public class JellyFishMovementScript : superklassEntity
 {
     /// <summary>
     /// This is the JellyFish's movement script. The movement it does is randomized with both how often it will turn and what direction it will take.
@@ -19,11 +19,13 @@ public class NewBehaviourScript : superklassEntity
 
     //movement and lerp speed
     protected int movementValue;
-    public float lerpSpeed;
+    private float lerpSpeed = 0.25f;
 
     //variables for the timers
     private float timerMaxValue = 5;
     private float timeUntilItProbablyWillTurn;
+
+    private bool switchingDirections;
 
     //bools for the different movement directions
     private bool SWMovement;
@@ -35,78 +37,107 @@ public class NewBehaviourScript : superklassEntity
     private bool EMovement;
     private bool WMovement;
 
-
     // Start is called before the first frame update
     void Start()
     {
-        timeUntilItProbablyWillTurn = timerMaxValue;
+        switchingDirections = false;
+        timeUntilItProbablyWillTurn = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log(timeUntilItProbablyWillTurn);
         //countdown for the timer
-        if(timeUntilItProbablyWillTurn > 0)
+        if (timeUntilItProbablyWillTurn > 0)
         {
+            switchingDirections = false;
             timeUntilItProbablyWillTurn -= Time.deltaTime;
         }
 
         //is used when the timer is at zero, which means that a new movement direction will be randomized and picked
         if (timeUntilItProbablyWillTurn <= 0)
         {
+            switchingDirections = true;
             //randomizes a value between 1 and 8
-            movementValue =  (int) Random.Range(1f, 8f);
+            int randomNumber = (int)Random.Range(1f, 8f);
+            movementValue = randomNumber;
 
             //This will tell the jellyfish what direction it should move depending on the randomized number we just got in the line above
             switch (movementValue)
             {
                 case 1:
-                    makeAllDirectionBoolsFalse();
-                    SEMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the jellyfish will move in the direction before changing again
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if(switchingDirections == true) //These don't need to be in if satments but I'm too lazy to get rid of them right now
+                    {
+                        makeAllDirectionBoolsFalse();
+                        SEMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the jellyfish will move in the direction before changing again
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 2:
-                    makeAllDirectionBoolsFalse();
-                    SWMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        SWMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 3:
-                    makeAllDirectionBoolsFalse();
-                    NWMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        NWMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 4:
-                    makeAllDirectionBoolsFalse();
-                    NEMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        NEMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 5:
-                    makeAllDirectionBoolsFalse();
-                    SMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        SMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 6:
-                    makeAllDirectionBoolsFalse();
-                    EMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        EMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 7:
-                    makeAllDirectionBoolsFalse();
-                    NMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        NMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
                 case 8:
-                    makeAllDirectionBoolsFalse();
-                    WMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f);
-                    timeUntilItProbablyWillTurn = timerMaxValue;
+                    if (switchingDirections == true)
+                    {
+                        makeAllDirectionBoolsFalse();
+                        WMovement = true;
+                        timerMaxValue = Random.Range(3f, 7f);
+                        timeUntilItProbablyWillTurn = timerMaxValue;
+                    }
                     break;
 
             }
@@ -161,32 +192,57 @@ public class NewBehaviourScript : superklassEntity
             MovementW();
         }
 
-
+        /*
+         * Fix This!
+         * I would do it now
+         * but I really don't want to
+         * 
         //these four if statements makes sure that the yellyfish stays within a sertain range
         if(transform.position.x >= maxNEMovement.position.x)
         {
-            timeUntilItProbablyWillTurn = timerMaxValue;
-            makeAllDirectionBoolsFalse();
-            WMovement = true;
+            switchingDirections = true;
+            if(switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                makeAllDirectionBoolsFalse();
+                WMovement = true;
+                switchingDirections = false;
+            }
+
         }
         if (transform.position.y >= maxNEMovement.position.y)
         {
-            timeUntilItProbablyWillTurn = timerMaxValue;
-            makeAllDirectionBoolsFalse();
-            SMovement = true;
+            switchingDirections = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                makeAllDirectionBoolsFalse();
+                SMovement = true;
+                switchingDirections = false;
+            }
         }
         if(transform.position.x <= maxSWMovement.position.x)
         {
-            timeUntilItProbablyWillTurn = timerMaxValue;
-            makeAllDirectionBoolsFalse();
-            EMovement = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                makeAllDirectionBoolsFalse();
+                EMovement = true;
+                switchingDirections = false;
+            }
         }
         if(transform.position.y <= maxSWMovement.position.y)
         {
-            timeUntilItProbablyWillTurn = timerMaxValue;
-            makeAllDirectionBoolsFalse();
-            NMovement = true;
+            switchingDirections = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                makeAllDirectionBoolsFalse();
+                NMovement = true;
+                switchingDirections = false;
+            }
         }
+        */
 
     }
 
@@ -238,16 +294,16 @@ public class NewBehaviourScript : superklassEntity
         transform.position = movement;
     }
 
-    //East
-    void MovementE()
+    //west
+    void MovementW()
     {
         Vector3 newPosition = new Vector3(transform.position.x - movespeed * Time.deltaTime, transform.position.y);
         movement = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
         transform.position = movement;
     }
 
-    //west
-    void MovementW()
+    //East
+    void MovementE()
     {
         Vector3 newPosition = new Vector3(transform.position.x + movespeed * Time.deltaTime, transform.position.y);
         movement = new Vector3(Mathf.Lerp(transform.position.x, newPosition.x, lerpSpeed), Mathf.Lerp(transform.position.y, newPosition.y, lerpSpeed));
@@ -269,8 +325,18 @@ public class NewBehaviourScript : superklassEntity
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //tells it that if it collides with something it should turn 
-        timeUntilItProbablyWillTurn = 0;
+        if(collision.gameObject.tag.Equals("Ground")|| collision.gameObject.tag.Equals("Void"))
+        {
+            //tells it that if it collides with something it should turn 
+            timeUntilItProbablyWillTurn = 0;
+            body.enabled = false;
+            Invoke("enableCollider", 0.5f);
+        }
+
     }
 
+    private void enableCollider()
+    {
+        body.enabled = true;
+    }
 }
