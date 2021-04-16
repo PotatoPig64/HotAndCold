@@ -8,7 +8,7 @@ public class superklassEntity : MonoBehaviour
     public float movespeed = 3.5f;
     float timeTurner = 3f;
     float timeTilTurn = 0f;
-    bool facingRight; //for the flip method
+    public bool facingRight; //for the flip method
     public float health = 1; //for the health method
     public Transform target; //crates 'target' with coordinates
     public Transform playerCheck; //checks if player

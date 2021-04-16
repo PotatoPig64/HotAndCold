@@ -32,6 +32,8 @@ public class PlayerMainScript : superklassEntity
     protected float coolDownRangeAttack;
     protected float coolDownTimerRangeAttack;
 
+    private float moveInput;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,6 +69,8 @@ public class PlayerMainScript : superklassEntity
                 UnderWaterMovementHandler();
             }
 
+            if (facingRight && moveInput > 0) { FlipSprites(); }
+            else if(!facingRight && moveInput < 0) { FlipSprites(); }
         }
 
     }
@@ -86,6 +90,18 @@ public class PlayerMainScript : superklassEntity
 
             timeElapsed = 0f;
             isGrounded = false;
+
+            //check the horizontal direction the player is moving and decides if the sprite needs to be flipped
+            if(beforeJumpPosition.x > landingPosition.x)
+            {
+                
+                facingRight = true;
+               
+            }
+            else 
+            {
+                facingRight = false; 
+            }
         }
         else
         {
@@ -122,7 +138,7 @@ public class PlayerMainScript : superklassEntity
 
         movement = new Vector2(horizontal * 0.5f, vertical * 0.5f);
 
-
+        moveInput = Input.GetAxis("Horizontal");
 
         //begins the jumping process id space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
@@ -194,6 +210,14 @@ public class PlayerMainScript : superklassEntity
         }
     }
 
+
+    void FlipSprites()
+    {
+        facingRight = !facingRight;
+        Vector3 Scaler = transform.localScale;
+        Scaler.x *= -1;
+        transform.localScale = Scaler;
+    }
 }
 
 
