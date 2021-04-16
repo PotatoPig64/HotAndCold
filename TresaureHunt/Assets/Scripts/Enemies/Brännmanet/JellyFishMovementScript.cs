@@ -48,7 +48,6 @@ public class JellyFishMovementScript : superklassEntity
     void Update()
     {
 
-        Debug.Log(timeUntilItProbablyWillTurn);
         //countdown for the timer
         if (timeUntilItProbablyWillTurn > 0)
         {
@@ -70,7 +69,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 1:
                     if(switchingDirections == true) //These don't need to be in if satments but I'm too lazy to get rid of them right now
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         SEMovement = true;
                         timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the jellyfish will move in the direction before changing again
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -79,7 +78,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 2:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         SWMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -88,7 +87,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 3:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         NWMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -97,7 +96,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 4:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         NEMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -106,7 +105,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 5:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         SMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -115,7 +114,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 6:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         EMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -124,7 +123,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 7:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         NMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -133,7 +132,7 @@ public class JellyFishMovementScript : superklassEntity
                 case 8:
                     if (switchingDirections == true)
                     {
-                        makeAllDirectionBoolsFalse();
+                        MakeAllDirectionBoolsFalse();
                         WMovement = true;
                         timerMaxValue = Random.Range(3f, 7f);
                         timeUntilItProbablyWillTurn = timerMaxValue;
@@ -196,6 +195,7 @@ public class JellyFishMovementScript : superklassEntity
          * Fix This!
          * I would do it now
          * but I really don't want to
+         * P.s When it's fixed, copy and paste it to the clown pirate movement script
          * 
         //these four if statements makes sure that the yellyfish stays within a sertain range
         if(transform.position.x >= maxNEMovement.position.x)
@@ -311,7 +311,7 @@ public class JellyFishMovementScript : superklassEntity
     }
 
     //method to make all the direction bools false
-    void makeAllDirectionBoolsFalse()
+    void MakeAllDirectionBoolsFalse()
     {
         SMovement = false;
         NMovement = false;
@@ -325,7 +325,7 @@ public class JellyFishMovementScript : superklassEntity
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag.Equals("Ground")|| collision.gameObject.tag.Equals("Void"))
+        if(collision.gameObject.tag.Equals("Ground")|| collision.gameObject.tag.Equals("Void")) //is used if the jellyfish tuches the ground's or the void's collider (gorund and void only has one collider surronding them)
         {
             //tells it that if it collides with something it should turn 
             timeUntilItProbablyWillTurn = 0;
@@ -335,7 +335,7 @@ public class JellyFishMovementScript : superklassEntity
 
     }
 
-    private void enableCollider()
+    private void EnableCollider()
     {
         body.enabled = true;
     }

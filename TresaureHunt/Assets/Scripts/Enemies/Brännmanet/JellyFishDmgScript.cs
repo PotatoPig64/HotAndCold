@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PirayaAttackTrigger : MonoBehaviour
+public class JellyFishDmgScript : MonoBehaviour
 {
     /// <summary>
-    /// This works exactly in the same way as the player's melee attack trigger, so read there if you want an explenation.
+    /// this is the Jellyfish's "attack" script, what happens is that if the player tuches the jellyfish the player will imideatly die.
     /// </summary>
-    public int dmg = 1;
-
+    /// 
+    public int dmg = 3;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.isTrigger != true && collision.CompareTag("Player"))
+        if (collision.isTrigger != true && collision.CompareTag("Player"))
         {
             //sends a message to the player to take dmg
             collision.SendMessageUpwards("Damage", dmg);
         }
     }
+
 }

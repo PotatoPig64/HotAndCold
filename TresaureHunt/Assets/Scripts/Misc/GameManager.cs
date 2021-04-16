@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
         if (gameOver == true)
         {
             //remeber to write this later!!!
+            Debug.Log("Game Over!!!");
         }
     }
 
