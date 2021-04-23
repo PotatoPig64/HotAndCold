@@ -13,7 +13,8 @@ public class ClownPiratMovementScript : superklassEntity
     public Vector3 currentMovement;
     protected Vector3 movement;
 
-    //are used to restrict the jellyfish's movement
+    //are used to restrict the enemy's movement
+    //technically it's not needed since they're inside a room... but I did not think about that while working with the code...
     public Transform maxNEMovement;
     public Transform maxSWMovement;
 
@@ -140,6 +141,54 @@ public class ClownPiratMovementScript : superklassEntity
             playerIsInRange = true;
         }
         else { playerIsInRange = false; }
+
+        //these four if statements makes sure that the yellyfish stays within a sertain range
+        //Again, this is technically not needed since they're inside a room... 
+        if (transform.position.x >= maxNEMovement.position.x)
+        {
+            switchingDirections = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                MakeAllDirectionBoolsFalse();
+                WMovement = true;
+                switchingDirections = false;
+            }
+
+        }
+        if (transform.position.y >= maxNEMovement.position.y)
+        {
+            switchingDirections = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                MakeAllDirectionBoolsFalse();
+                SMovement = true;
+                switchingDirections = false;
+            }
+        }
+        if (transform.position.x <= maxSWMovement.position.x)
+        {
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                MakeAllDirectionBoolsFalse();
+                EMovement = true;
+                switchingDirections = false;
+            }
+        }
+        if (transform.position.y <= maxSWMovement.position.y)
+        {
+            switchingDirections = true;
+            if (switchingDirections == true)
+            {
+                timeUntilItProbablyWillTurn = timerMaxValue;
+                MakeAllDirectionBoolsFalse();
+                NMovement = true;
+                switchingDirections = false;
+            }
+        }
+
     }
 
     //is used when the enemy doesn't see the player/when the player is out of range
@@ -154,7 +203,7 @@ public class ClownPiratMovementScript : superklassEntity
                 {
                     MakeAllDirectionBoolsFalse();
                     SEMovement = true;
-                    timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the jellyfish will move in the direction before changing again
+                    timerMaxValue = Random.Range(3f, 7f); //decides for how long (between 3 and seven seconds) the enemy will move in the direction before changing again
                     timeUntilItProbablyWillTurn = timerMaxValue;
                 }
                 break;

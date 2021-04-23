@@ -19,7 +19,7 @@ public class JellyFishMovementScript : superklassEntity
 
     //movement and lerp speed
     protected int movementValue;
-    private float lerpSpeed = 0.25f;
+    private readonly float lerpSpeed = 0.25f;
 
     //variables for the timers
     private float timerMaxValue = 5;
@@ -191,12 +191,6 @@ public class JellyFishMovementScript : superklassEntity
             MovementW();
         }
 
-        /*
-         * Fix This!
-         * I would do it now
-         * but I really don't want to
-         * P.s When it's fixed, copy and paste it to the clown pirate movement script
-         * 
         //these four if statements makes sure that the yellyfish stays within a sertain range
         if(transform.position.x >= maxNEMovement.position.x)
         {
@@ -204,7 +198,7 @@ public class JellyFishMovementScript : superklassEntity
             if(switchingDirections == true)
             {
                 timeUntilItProbablyWillTurn = timerMaxValue;
-                makeAllDirectionBoolsFalse();
+                MakeAllDirectionBoolsFalse();
                 WMovement = true;
                 switchingDirections = false;
             }
@@ -216,7 +210,7 @@ public class JellyFishMovementScript : superklassEntity
             if (switchingDirections == true)
             {
                 timeUntilItProbablyWillTurn = timerMaxValue;
-                makeAllDirectionBoolsFalse();
+                MakeAllDirectionBoolsFalse();
                 SMovement = true;
                 switchingDirections = false;
             }
@@ -226,7 +220,7 @@ public class JellyFishMovementScript : superklassEntity
             if (switchingDirections == true)
             {
                 timeUntilItProbablyWillTurn = timerMaxValue;
-                makeAllDirectionBoolsFalse();
+                MakeAllDirectionBoolsFalse();
                 EMovement = true;
                 switchingDirections = false;
             }
@@ -237,12 +231,12 @@ public class JellyFishMovementScript : superklassEntity
             if (switchingDirections == true)
             {
                 timeUntilItProbablyWillTurn = timerMaxValue;
-                makeAllDirectionBoolsFalse();
+                MakeAllDirectionBoolsFalse();
                 NMovement = true;
                 switchingDirections = false;
             }
         }
-        */
+        
 
     }
 
@@ -335,7 +329,7 @@ public class JellyFishMovementScript : superklassEntity
 
     }
 
-    private void EnableCollider()
+    private void EnableCollider() //void to enable the jellyfish's collider (the void only exists because I wanted to use "Invoke" in the meothod above)
     {
         body.enabled = true;
     }
