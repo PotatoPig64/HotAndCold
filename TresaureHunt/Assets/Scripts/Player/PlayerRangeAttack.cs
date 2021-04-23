@@ -10,9 +10,10 @@ public class PlayerRangeAttack : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    //pew pew make gunshot :)
     void Update()
     {
         
     }
+
 }
