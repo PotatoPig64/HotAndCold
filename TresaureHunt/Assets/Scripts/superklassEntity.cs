@@ -8,14 +8,14 @@ public class superklassEntity : MonoBehaviour
     public float movespeed = 3.5f;
     float timeTurner = 3f;
     float timeTilTurn = 0f;
-    bool facingRight; //for the flip method
+    public bool facingRight; //for the flip method
     public float health = 1; //for the health method
     public Transform target; //crates 'target' with coordinates
     public Transform playerCheck; //checks if player
     public float checkRadius;   //how close the player need to be
     public LayerMask whatIsPlayer; 
     private bool nearPLayer; //yes or no
-    BoxCollider2D body; //for their bodies
+    public BoxCollider2D body; //for their bodies
 
         public virtual void Movement()
         {

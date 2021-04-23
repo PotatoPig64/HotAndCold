@@ -5,7 +5,7 @@ using UnityEngine;
 public class PirayaAttackTrigger : MonoBehaviour
 {
     /// <summary>
-    /// This works exactly in the same way as the player's attack trigger, so read there if you want an explenation.
+    /// This works exactly in the same way as the player's melee attack trigger, so read there if you want an explenation.
     /// </summary>
     public int dmg = 1;
 

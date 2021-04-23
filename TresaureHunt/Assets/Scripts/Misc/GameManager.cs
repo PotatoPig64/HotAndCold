@@ -11,14 +11,18 @@ public class GameManager : MonoBehaviour
 
     //displays the current node in the inspector
     public Node currentNode;
+    public Node SpawnNode;
 
     public static GameManager ins;
     public GameObject player;
+    public GameObject playerSpawn;
 
     //the player's ridgidBody2D
     Rigidbody2D playerRB;
 
     public bool gameOver;
+    public bool playerHasFallenIntotheVoid = false;
+    float i = 1.5f;
 
 
     private void Awake() 
@@ -40,17 +44,36 @@ public class GameManager : MonoBehaviour
         if(currentNode.tag.Equals("Void"))
         {
             playerRB.gravityScale = 2f;
+            playerHasFallenIntotheVoid = true;
         }
         else 
         {
             playerRB.gravityScale = 0f;
         }
 
-        if(gameOver == true)
+        if (playerHasFallenIntotheVoid == true)
         {
-            Debug.Log("GameOver");
+            i -= Time.deltaTime;
+            if (i <= 0)
+            {
+                playerRB.gravityScale = 0f;
+                player.transform.position = playerSpawn.transform.position;
+
+                if (currentNode.Col != null) { currentNode.Col.enabled = true; }
+                currentNode = SpawnNode;
+                if (currentNode.Col != null) { currentNode.Col.enabled = false; }
+                playerHasFallenIntotheVoid = false;
+            }
+        }
+        else { i = 1.5f; }
+
+        if (gameOver == true)
+        {
             //remeber to write this later!!!
+            Debug.Log("Game Over!!!");
         }
     }
+
+
 
 }
