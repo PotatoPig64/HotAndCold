@@ -5,8 +5,8 @@ using UnityEngine;
 public class OldImprovedScripts : MonoBehaviour
 {
     /// <summary>
-    /// This stuff comes from the old jumping mechanics. 
-    /// I, with the help of the teacher managed to find a way better way to make it work so i just threw the old code out,since it's complete shit, but I felt that I should probably save the old stuff for the evaluation at the end...
+    /// This stuff comes from the old jumping mechanics and movement script for the player. 
+    /// We, with the help of the teacher, managed to find a way better way to make the jumping work so I just threw the old code out, since it's complete shit, but I felt that I should probably save it incase I can use some of it elsewhere in the future
     /// </summary>
     private float jumptimeCounter;
     private float jumpTime = 0.75f;

@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     /// <summary>
     /// This is the GameManager script. 
-    /// It for example keeps track of current nodes and the gameOver bool. 
+    /// It for example keeps track of current nodes and the game over bool. 
     /// </summary>
 
     //displays the current node in the inspector
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
             playerRB.gravityScale = 0f;
         }
 
-        if (playerHasFallenIntotheVoid == true)
+        if (playerHasFallenIntotheVoid == true) //this will respawn the player in the begining at spawn if they fall into the void
         {
             i -= Time.deltaTime;
             if (i <= 0)
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
                 playerRB.gravityScale = 0f;
                 player.transform.position = playerSpawn.transform.position;
 
+                //fixes the current nodes after respawn
                 if (currentNode.Col != null) { currentNode.Col.enabled = true; }
                 currentNode = SpawnNode;
                 if (currentNode.Col != null) { currentNode.Col.enabled = false; }

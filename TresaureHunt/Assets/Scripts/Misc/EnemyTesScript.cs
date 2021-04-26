@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyTesScript : MonoBehaviour
 {
+    /// <summary>
+    /// this is a test script that will be removed later
+    /// </summary>
     public float currentHealth = 1;
 
     void Update()

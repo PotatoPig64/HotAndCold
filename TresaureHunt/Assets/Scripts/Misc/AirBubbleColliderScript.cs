@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class AirBubbleColliderScript : MonoBehaviour
 {
+    /// <summary>
+    /// This is the airbubble's coillider script. The air bubbles have colliders to detect if the player walks into them or not, 
+    /// but since the player should be able to pass through the bubbles, the airbubble's colliders must be able to activate and deactivate themselves - hence why this script excists
+    /// </summary>
+    
     private BoxCollider2D col;
 
     private void Start()
