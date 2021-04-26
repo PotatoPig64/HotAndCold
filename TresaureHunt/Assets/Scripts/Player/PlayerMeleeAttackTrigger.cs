@@ -9,9 +9,9 @@ public class PlayerMeleeAttackTrigger : MonoBehaviour
     /// It is a collider that appeares when the player attacks, 
     /// and it is when the collider collides with an enemy the player can deal dmg to them
     /// 
-    /// OBS! remeber to add this in the enemy script:
-    /// //makes the enemy's health go down if it's hit by the player public void Damage(int Damage)  { health -= Damage;}
-    /// You migth need to change the
+    /// NB! remeber to add this in the enemy script:
+    /// public void Damage(int Damage)  { health -= Damage;}
+    /// You migth need to change the dmg depending onthe enemy
     /// </summary>
     public int dmg = 1;
 
